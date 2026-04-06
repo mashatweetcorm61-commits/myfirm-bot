@@ -159,26 +159,12 @@ const wizard = new WizardScene(
   },
 
   // Шаг 1: Приветствие + сохранить контакт сразу
+  // Шаг 1: Приветствие — только показываем, не сохраняем
   async (ctx) => {
     const lang = ctx.callbackQuery?.data === 'lang_en' ? 'en' : 'ru';
     userLang[ctx.from.id] = lang;
     userChoices[ctx.from.id] = { lang };
     const t = texts[lang];
-    const clientName = ctx.from.first_name || 'Клиент';
-    const username = ctx.from.username ? `@${ctx.from.username}` : '—';
-
-    await saveToSheets({
-      type: 'lead',
-      date: new Date().toLocaleString('ru-RU'),
-      name: clientName,
-      username: username,
-      telegram_id: ctx.from.id,
-      lang: lang === 'ru' ? 'Русский' : 'English',
-      service: '—',
-      country: '—',
-      contact: '—',
-      details: 'Начал диалог'
-    });
 
     await ctx.reply(t.welcome);
     await ctx.reply("👇", {
@@ -188,27 +174,74 @@ const wizard = new WizardScene(
   },
 
   // Шаг 2: Согласие
-  (ctx) => {
+  // Шаг 2: Согласие
+  async (ctx) => {
     const t = texts[userLang[ctx.from.id] || 'ru'];
-    ctx.reply(t.privacy, {
+    
+    // Если пришёл ответ на согласие
+    if (ctx.callbackQuery?.data === 'disagree') {
+      await ctx.answerCbQuery();
+      await ctx.reply(
+        userLang[ctx.from.id] === 'en'
+          ? "⚠️ To continue, we need your consent to process personal data.\n\nWithout consent we are unable to provide our services. Please press «I agree» to continue."
+          : "⚠️ Для продолжения необходимо дать согласие на обработку персональных данных.\n\nБез согласия мы не можем оказывать наши услуги. Нажмите «Согласен» чтобы продолжить.",
+        {
+          reply_markup: { inline_keyboard: [[
+            { text: t.agree, callback_data: "agree" },
+            { text: t.disagree, callback_data: "disagree" }
+          ]] }
+        }
+      );
+      return; // остаёмся на этом шаге
+    }
+
+    // Если согласие дано — сохраняем в таблицу и идём дальше
+    if (ctx.callbackQuery?.data === 'agree') {
+      await ctx.answerCbQuery();
+      userChoices[ctx.from.id].consent = 'agree';
+      const clientName = ctx.from.first_name || 'Клиент';
+      const username = ctx.from.username ? `@${ctx.from.username}` : '—';
+
+      await saveToSheets({
+        type: 'lead',
+        date: new Date().toLocaleString('ru-RU'),
+        name: clientName,
+        username: username,
+        telegram_id: ctx.from.id,
+        lang: userLang[ctx.from.id] === 'ru' ? 'Русский' : 'English',
+        service: '—',
+        country: '—',
+        contact: '—',
+        details: 'Начал диалог'
+      });
+
+      await ctx.reply(t.choose_service, {
+        reply_markup: { inline_keyboard: t.services.map(([text, data]) => [{ text, callback_data: data }]) }
+      });
+      return ctx.wizard.next();
+    }
+
+    // Первый показ — показываем кнопки согласия
+    await ctx.reply(t.privacy, {
       reply_markup: { inline_keyboard: [[
         { text: t.agree, callback_data: "agree" },
         { text: t.disagree, callback_data: "disagree" }
       ]] }
     });
-    return ctx.wizard.next();
   },
+  
 
   // Шаг 3: Услуга
+  // Шаг 3: Услуга — просто следующий шаг
   (ctx) => {
     const t = texts[userLang[ctx.from.id] || 'ru'];
-    if (ctx.callbackQuery?.data) userChoices[ctx.from.id].consent = ctx.callbackQuery.data;
-    ctx.reply(t.choose_service, {
-      reply_markup: { inline_keyboard: t.services.map(([text, data]) => [{ text, callback_data: data }]) }
+    if (ctx.callbackQuery?.data) userChoices[ctx.from.id].service = ctx.callbackQuery.data;
+    ctx.reply(t.choose_country, {
+      reply_markup: { inline_keyboard: t.countries.map(([text, data]) => [{ text, callback_data: data }]) }
     });
     return ctx.wizard.next();
   },
-
+  
   // Шаг 4: Юрисдикция
   (ctx) => {
     const t = texts[userLang[ctx.from.id] || 'ru'];
