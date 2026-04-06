@@ -3,7 +3,7 @@ const { WizardScene, Stage } = Scenes;
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 const MANAGER_ID = 762476604;
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwKD31qjHxBz_JNXT45QX26iIbyMMXbcsn9FQoDPN4TatNXbYygalSN-jpsBI7BcURF/exec';
+const SHEET_URL = process.env.SHEET_URL;
 
 const sessions = {};
 const userLang = {};
