@@ -1,3 +1,4 @@
+const axios = require('axios');
 const { Telegraf, Scenes, session } = require('telegraf');
 const { WizardScene, Stage } = Scenes;
 
