@@ -74,8 +74,7 @@ const texts = {
     skip: "⏩ Skip",
     write: "✍️ I'll describe",
     contact: "Almost there! 🎯\n\nHow would you prefer to receive your consultation?",
-    contacts: [
-      ["📱 WhatsApp", "whatsapp"],
+    contacts: [,
       ["✈️ Telegram", "telegram"],
       ["📧 Email", "email"]
     ],
