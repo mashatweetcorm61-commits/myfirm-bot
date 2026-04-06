@@ -92,16 +92,17 @@ const texts = {
 
 async function saveToSheets(data) {
   try {
-    await fetch(SHEET_URL, {
+    const res = await fetch(SHEET_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      redirect: 'follow',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(data)
     });
+    console.log('Sheets response:', res.status);
   } catch (e) {
-    console.error('Sheets error:', e);
+    console.error('Sheets error:', e.message);
   }
 }
-
 async function getAllUsers() {
   try {
     const res = await fetch(SHEET_URL, {
