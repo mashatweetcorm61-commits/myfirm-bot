@@ -2,7 +2,7 @@ const { Telegraf, Scenes, session } = require('telegraf');
 const { WizardScene, Stage } = Scenes;
 
 // Вставь сюда свой токен от BotFather
-const bot = new Telegraf('ВАШ_ТОКЕН_ОТ_BOTFATHER');
+const bot = new Telegraf('8592398805:AAEZj0IMW1e_HZcTwhYJGyi9H39acdQpp5');
 
 // Шаги бота — WizardScene
 const wizard = new WizardScene(
