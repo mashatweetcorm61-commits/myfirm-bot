@@ -13,10 +13,10 @@ const texts = {
   ru: {
     welcome: "Добро пожаловать в MyFirm Global 👋\n\nМы помогаем предпринимателям открывать компании, счета и лицензии в 50+ странах — быстро, без лишней бюрократии и с гарантией результата.\n\n🔹 Более 500 успешных кейсов\n🔹 Средний срок регистрации — 5 дней\n🔹 Персональный специалист на каждом этапе",
     start_btn: "🚀 Получить консультацию",
-    privacy: "Прежде чем начать — нам важно ваше согласие на обработку персональных данных.\n\n📄 Политика конфиденциальности: myfirm.global/privacy\n\nМы никогда не передаём данные третьим лицам.",
+    privacy: "Прежде чем начать — нам важно ваше согласие на обработку персональных данных.\n\n📄 Политика конфиденциальности: https://myfirmglobal.com/privacypolicy\n\nМы никогда не передаём данные третьим лицам.",
     agree: "✅ Согласен, продолжить",
     disagree: "❌ Не согласен",
-    choose_service: "Отлично! Что сейчас актуально для вашего бизнеса? 👇\n\n_Выберите основное направление — специалист подготовится заранее_",
+    choose_service: "Отлично! Что сейчас актуально для вашего бизнеса? 👇\n\n Выберите основное направление — мы подберем профильного специалиста",
     services: [
       ["🏢 Регистрация компании", "reg"],
       ["🏦 Открытие банковского счёта", "bank"],
@@ -25,7 +25,7 @@ const texts = {
       ["🔄 Комплексное сопровождение", "multi"],
       ["❓ Другой вопрос", "other"]
     ],
-    choose_country: "В какой юрисдикции планируете работать?\n\n_Если рассматриваете несколько — выберите приоритетную_ 👇",
+    choose_country: "В какой юрисдикции планируете работать?\n\n Если рассматриваете несколько — выберите приоритетную👇",
     countries: [
       ["🇦🇪 ОАЭ — от 3 дней", "UAE"],
       ["🇬🇧 Великобритания — от 1 дня", "UK"],
@@ -34,28 +34,28 @@ const texts = {
       ["🇭🇰 Гонконг — от 5 дней", "HK"],
       ["🌍 Другая страна", "other_country"]
     ],
-    details: "Чтобы специалист сразу дал точный ответ — расскажите в двух словах о вашей ситуации.\n\n_Например: «Открываю IT-компанию, нужен счёт для приёма международных платежей»_",
+    details: "Чтобы специалист смог подготовиться — расскажите подробнее о вашей ситуации.\n\n Например: «Открываю IT-компанию,сайт компании, нужен счёт для приёма международных платежей. География клиентов и структура будет следующая:»",
     skip: "⏩ Пропустить",
     write: "✍️ Напишу",
-    contact: "Почти готово! 🎯\n\nКак вам удобнее получить консультацию специалиста?",
+    contact: "Почти готово! 🎯\n\n Как вам удобнее получить консультацию специалиста?",
     contacts: [
-      ["📱 WhatsApp", "whatsapp"],
+      ["📱 По телефону", "По телефону"],
       ["✈️ Telegram", "telegram"],
       ["📧 Email", "email"]
     ],
-    final: "✅ Заявка принята!\n\nВаш персональный специалист MyFirm Global уже получил все детали и свяжется с вами в течение 15 минут.\n\n⚡ Мы ценим ваше время — никаких долгих ожиданий.",
+    final: "✅ Заявка принята!\n\n Ваш персональный специалист MyFirm Global уже получил все детали и свяжется с вами в течение 15 минут.\n\n⚡ Мы ценим ваше время — никаких долгих ожиданий.",
     manager_reply: "💬 Сообщение от вашего специалиста MyFirm Global:",
-    reminder1: "👋 Добрый день!\n\nНапоминаем — вы оставляли заявку в MyFirm Global. Если остались вопросы или хотите уточнить детали — наш специалист готов помочь прямо сейчас. 🚀",
-    reminder2: "🌍 MyFirm Global напоминает:\n\nРегистрация компании за рубежом — это не сложно, если рядом есть эксперт. Мы готовы ответить на любые вопросы. Напишите нам! 💼",
-    reminder3: "⚡ Последнее напоминание от MyFirm Global:\n\nЕсли вы ещё думаете над открытием компании или счёта — самое время начать. Специалист свяжется с вами в течение 15 минут. 🎯"
+    reminder1: "👋 Добрый день!\n\n Напоминаем — вы оставляли заявку в MyFirm Global. Если остались вопросы или хотите уточнить детали — наш специалист готов помочь прямо сейчас. 🚀",
+    reminder2: "🌍 MyFirm Global напоминает:\n\n Регистрация компании за рубежом — это не сложно, если рядом есть команда экспертов. Мы готовы ответить на любые Ваши вопросы. Напишите нам! 💼",
+    reminder3: "⚡ Последнее напоминание от MyFirm Global:\n\n Если вы ещё думаете над открытием компании или счёта — самое время начать. Специалист свяжется с вами в течение 10 минут и ответит на все ваши вопросы. 🎯"
   },
   en: {
-    welcome: "Welcome to MyFirm Global 👋\n\nWe help entrepreneurs register companies, open accounts and obtain licenses in 50+ countries — fast, hassle-free and with guaranteed results.\n\n🔹 500+ successful cases\n🔹 Average registration time — 5 days\n🔹 Personal expert at every step",
+    welcome: "Welcome to MyFirm Global 👋\n\n We help entrepreneurs register companies, open accounts and obtain licenses in 50+ countries — fast, hassle-free and with guaranteed results.\n\n🔹 500+ successful cases\n🔹 Average registration time — 5 days\n🔹 Personal expert at every step",
     start_btn: "🚀 Get a free consultation",
-    privacy: "Before we start — we need your consent to process personal data.\n\n📄 Privacy policy: myfirm.global/privacy\n\nWe never share your data with third parties.",
+    privacy: "Before we start — we need your consent to process personal data.\n\n📄 Privacy policy: https://myfirmglobal.com/privacypolicy\n\n We never share your data with third parties.",
     agree: "✅ I agree, let's continue",
     disagree: "❌ I disagree",
-    choose_service: "Great! What's most relevant for your business right now? 👇\n\n_Choose the main area — your specialist will prepare in advance_",
+    choose_service: "Great! What's most relevant for your business right now? 👇\n\n Choose the main area — your specialist will prepare in advance",
     services: [
       ["🏢 Company Registration", "reg"],
       ["🏦 Bank Account Opening", "bank"],
@@ -64,7 +64,7 @@ const texts = {
       ["🔄 Full Business Support", "multi"],
       ["❓ Other Question", "other"]
     ],
-    choose_country: "Which jurisdiction are you planning to operate in?\n\n_If you're considering several — pick the priority one_ 👇",
+    choose_country: "Which jurisdiction are you planning to operate in?\n\n If you're considering several — pick the priority one👇",
     countries: [
       ["🇦🇪 UAE — from 3 days", "UAE"],
       ["🇬🇧 UK — from 1 day", "UK"],
@@ -73,20 +73,20 @@ const texts = {
       ["🇭🇰 Hong Kong — from 5 days", "HK"],
       ["🌍 Other country", "other_country"]
     ],
-    details: "To give you the most accurate answer right away — briefly describe your situation.\n\n_For example: 'Setting up an IT company, need an account for international payments'_",
+    details: "To give you the most accurate answer right away — briefly describe your situation.\n\n For example: 'Setting up an IT company, need an account for international payments, geography and company structure will be:...'",
     skip: "⏩ Skip",
     write: "✍️ I'll describe",
-    contact: "Almost there! 🎯\n\nHow would you prefer to receive your consultation?",
+    contact: "Almost there! 🎯\n\n How would you prefer to receive your consultation?",
     contacts: [
       ["📱 WhatsApp", "whatsapp"],
       ["✈️ Telegram", "telegram"],
       ["📧 Email", "email"]
     ],
-    final: "✅ Request received!\n\nYour personal MyFirm Global specialist has all the details and will contact you within 15 minutes.\n\n⚡ We value your time — no long waits.",
+    final: "✅ Request received!\n\n Your personal MyFirm Global specialist has all the details and will contact you within 15 minutes.\n\n⚡ We value your time — no long waits.",
     manager_reply: "💬 Message from your MyFirm Global specialist:",
-    reminder1: "👋 Hello!\n\nJust a reminder — you submitted a request to MyFirm Global. If you have any questions or need more details — our specialist is ready to help right now. 🚀",
-    reminder2: "🌍 MyFirm Global reminder:\n\nRegistering a company abroad is easy when you have the right expert. We're ready to answer any questions. Just reach out! 💼",
-    reminder3: "⚡ Final reminder from MyFirm Global:\n\nIf you're still considering opening a company or account — now is the perfect time. A specialist will contact you within 15 minutes. 🎯"
+    reminder1: "👋 Hello!\n\n Just a reminder — you submitted a request to MyFirm Global. If you have any questions or need more details — our specialist is ready to help right now. 🚀",
+    reminder2: "🌍 MyFirm Global reminder:\n\n Registering a company abroad is easy when you have the right expert. We're ready to answer any questions. Just reach out! 💼",
+    reminder3: "⚡ Final reminder from MyFirm Global:\n\n If you're still considering opening a company or account — now is the perfect time. A specialist will contact you within 15 minutes. 🎯"
   }
 };
 
