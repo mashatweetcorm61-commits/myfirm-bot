@@ -35,7 +35,8 @@ const texts = {
       ["🇭🇰 Гонконг — от 5 дней", "HK"],
       ["🌍 Другая страна", "other_country"]
     ],
-    details: "Чтобы специалист смог подготовиться — расскажите подробнее о вашей ситуации.\n\nНапример: «Открываю IT-компанию, нужен счёт для приёма международных платежей. География клиентов и структура будет следующая:»",
+    details: "Чтобы специалист смог подготовиться — расскажите подробнее о вашей ситуации.\n\nНапример: «Открываю IT-компанию, нужен счёт для приёма международных платежей»",
+    details_wait: "✍️ Напишите ваше сообщение:",
     skip: "⏩ Пропустить",
     write: "✍️ Напишу",
     contact: "Почти готово! 🎯\n\nКак вам удобнее получить консультацию специалиста?",
@@ -74,7 +75,8 @@ const texts = {
       ["🇭🇰 Hong Kong — from 5 days", "HK"],
       ["🌍 Other country", "other_country"]
     ],
-    details: "To give you the most accurate answer right away — briefly describe your situation.\n\nFor example: 'Setting up an IT company, need an account for international payments, geography and company structure will be:...'",
+    details: "To give you the most accurate answer — briefly describe your situation.\n\nFor example: 'Setting up an IT company, need an account for international payments'",
+    details_wait: "✍️ Please type your message:",
     skip: "⏩ Skip",
     write: "✍️ I'll describe",
     contact: "Almost there! 🎯\n\nHow would you prefer to receive your consultation?",
@@ -85,7 +87,7 @@ const texts = {
     ],
     final: "✅ Request received!\n\nYour personal MyFirm Global specialist has all the details and will contact you within 15 minutes.\n\n⚡ We value your time — no long waits.",
     manager_reply: "💬 Message from your MyFirm Global specialist:",
-    reminder1: "👋 Hello!\n\nJust a reminder — you submitted a request to MyFirm Global. If you have any questions or need more details — our specialist is ready to help right now. 🚀",
+    reminder1: "👋 Hello!\n\nJust a reminder — you submitted a request to MyFirm Global. If you have any questions — our specialist is ready to help right now. 🚀",
     reminder2: "🌍 MyFirm Global reminder:\n\nRegistering a company abroad is easy when you have the right expert. We're ready to answer any questions. Just reach out! 💼",
     reminder3: "⚡ Final reminder from MyFirm Global:\n\nIf you're still considering opening a company or account — now is the perfect time. A specialist will contact you within 15 minutes. 🎯"
   }
@@ -109,7 +111,8 @@ async function getAllUsers() {
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       maxRedirects: 5
     });
-    return res.data;
+    const data = typeof res.data === 'string' ? JSON.parse(res.data) : res.data;
+    return data.map(u => ({ ...u, id: parseInt(u.id) })).filter(u => !isNaN(u.id));
   } catch (e) {
     console.error('Get users error:', e.message);
     return [];
@@ -143,6 +146,8 @@ function scheduleReminders(clientId, lang) {
 
 const wizard = new WizardScene(
   'myfirm-wizard',
+
+  // Шаг 0: Выбор языка
   (ctx) => {
     ctx.reply("🌍 Please choose your language / Выберите язык:", {
       reply_markup: { inline_keyboard: [[
@@ -152,17 +157,37 @@ const wizard = new WizardScene(
     });
     return ctx.wizard.next();
   },
-  (ctx) => {
+
+  // Шаг 1: Приветствие + сохранить контакт сразу
+  async (ctx) => {
     const lang = ctx.callbackQuery?.data === 'lang_en' ? 'en' : 'ru';
     userLang[ctx.from.id] = lang;
     userChoices[ctx.from.id] = { lang };
     const t = texts[lang];
-    ctx.reply(t.welcome);
-    ctx.reply("👇", {
+    const clientName = ctx.from.first_name || 'Клиент';
+    const username = ctx.from.username ? `@${ctx.from.username}` : '—';
+
+    await saveToSheets({
+      type: 'lead',
+      date: new Date().toLocaleString('ru-RU'),
+      name: clientName,
+      username: username,
+      telegram_id: ctx.from.id,
+      lang: lang === 'ru' ? 'Русский' : 'English',
+      service: '—',
+      country: '—',
+      contact: '—',
+      details: 'Начал диалог'
+    });
+
+    await ctx.reply(t.welcome);
+    await ctx.reply("👇", {
       reply_markup: { inline_keyboard: [[{ text: t.start_btn, callback_data: "start" }]] }
     });
     return ctx.wizard.next();
   },
+
+  // Шаг 2: Согласие
   (ctx) => {
     const t = texts[userLang[ctx.from.id] || 'ru'];
     ctx.reply(t.privacy, {
@@ -173,6 +198,8 @@ const wizard = new WizardScene(
     });
     return ctx.wizard.next();
   },
+
+  // Шаг 3: Услуга
   (ctx) => {
     const t = texts[userLang[ctx.from.id] || 'ru'];
     if (ctx.callbackQuery?.data) userChoices[ctx.from.id].consent = ctx.callbackQuery.data;
@@ -181,6 +208,8 @@ const wizard = new WizardScene(
     });
     return ctx.wizard.next();
   },
+
+  // Шаг 4: Юрисдикция
   (ctx) => {
     const t = texts[userLang[ctx.from.id] || 'ru'];
     if (ctx.callbackQuery?.data) userChoices[ctx.from.id].service = ctx.callbackQuery.data;
@@ -189,6 +218,8 @@ const wizard = new WizardScene(
     });
     return ctx.wizard.next();
   },
+
+  // Шаг 5: Детали — выбор skip или write
   (ctx) => {
     const t = texts[userLang[ctx.from.id] || 'ru'];
     if (ctx.callbackQuery?.data) userChoices[ctx.from.id].country = ctx.callbackQuery.data;
@@ -200,18 +231,33 @@ const wizard = new WizardScene(
     });
     return ctx.wizard.next();
   },
-  (ctx) => {
+
+  // Шаг 6: Ждём текст или skip
+  async (ctx) => {
     const t = texts[userLang[ctx.from.id] || 'ru'];
     if (ctx.callbackQuery?.data === 'skip') {
       userChoices[ctx.from.id].details = '—';
-    } else if (ctx.message?.text) {
-      userChoices[ctx.from.id].details = ctx.message.text;
+      await ctx.answerCbQuery();
+      await ctx.reply(t.contact, {
+        reply_markup: { inline_keyboard: t.contacts.map(([text, data]) => [{ text, callback_data: data }]) }
+      });
+      return ctx.wizard.next();
     }
-    ctx.reply(t.contact, {
-      reply_markup: { inline_keyboard: t.contacts.map(([text, data]) => [{ text, callback_data: data }]) }
-    });
-    return ctx.wizard.next();
+    if (ctx.callbackQuery?.data === 'write') {
+      await ctx.answerCbQuery();
+      await ctx.reply(t.details_wait);
+      return; // остаёмся на этом шаге и ждём текст
+    }
+    if (ctx.message?.text) {
+      userChoices[ctx.from.id].details = ctx.message.text;
+      await ctx.reply(t.contact, {
+        reply_markup: { inline_keyboard: t.contacts.map(([text, data]) => [{ text, callback_data: data }]) }
+      });
+      return ctx.wizard.next();
+    }
   },
+
+  // Шаг 7: Финал
   async (ctx) => {
     const lang = userLang[ctx.from.id] || 'ru';
     const t = texts[lang];
@@ -278,25 +324,30 @@ bot.action(/reply_to_(.+)/, async (ctx) => {
 
 bot.command('broadcast', async (ctx) => {
   if (ctx.from.id !== MANAGER_ID) return;
-  const text = ctx.message.text.replace('/broadcast ', '').trim();
+  const text = ctx.message.text.replace('/broadcast', '').trim();
   if (!text) {
     await ctx.reply('❌ Укажите текст: /broadcast Ваше сообщение');
     return;
   }
   await ctx.reply('📤 Начинаю рассылку...');
   const users = await getAllUsers();
+  if (!users.length) {
+    await ctx.reply('❌ Нет пользователей в базе или ошибка загрузки');
+    return;
+  }
   let sent = 0;
   let failed = 0;
   for (const user of users) {
     try {
       await bot.telegram.sendMessage(user.id, text, {
         reply_markup: { inline_keyboard: [[
-          { text: "💬 Написать специалисту", callback_data: "reply_to_manager" }
+          { text: "💬 Связаться со специалистом", callback_data: "reply_to_manager" }
         ]]}
       });
       sent++;
-      await new Promise(r => setTimeout(r, 50));
+      await new Promise(r => setTimeout(r, 100));
     } catch (e) {
+      console.error(`Failed to send to ${user.id}:`, e.message);
       failed++;
     }
   }
