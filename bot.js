@@ -2,7 +2,7 @@ const { Telegraf, Scenes, session } = require('telegraf');
 const { WizardScene, Stage } = Scenes;
 
 // Вставь сюда свой токен от BotFather
-const bot = new Telegraf('8592398805:AAEZj0IMW1e_HZcTwhYJGyi9H39acdQpp5');
+const bot = new Telegraf('process.env.BOT_TOKEN');
 
 // Шаги бота — WizardScene
 const wizard = new WizardScene(
@@ -103,7 +103,7 @@ nano bot.js
 const { Telegraf } = require('telegraf');
 
 // Вставь сюда токен от BotFather
-const bot = new Telegraf('ВСТАВЬ_СЮДА_СВОЙ_ТОКЕН');
+const bot = new Telegraf('process.env.BOT_TOKEN');
 
 // Простейший старт
 bot.start((ctx) => {
@@ -112,13 +112,13 @@ bot.start((ctx) => {
 
 // Запуск бота
 bot.launch();
-console.log("MyFirm Global Bot запущен!");8592398805:AAEZj0IMW1e_HZcTwhYJGyi9H39acdQpp5
+console.log("MyFirm Global Bot запущен!");process.env.BOT_TOKEN
 
 // Подключаем Telegraf
 const { Telegraf } = require('telegraf');
 
 // Вставь сюда токен от BotFather
-const bot = new Telegraf('8592398805:AAEZj0IMW1e_HZcTwhYJGyi9H39acdQpp5s');
+const bot = new Telegraf('process.env.BOT_TOKEN');
 
 // Простейший старт
 bot.start((ctx) => {
