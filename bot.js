@@ -1,68 +1,148 @@
 const { Telegraf, Scenes, session } = require('telegraf');
 const { WizardScene, Stage } = Scenes;
 
-// Вставь сюда свой токен от BotFather
-const bot = new Telegraf('process.env.BOT_TOKEN');
+const bot = new Telegraf(process.env.BOT_TOKEN);
 
-// Шаги бота — WizardScene
+// Тексты на двух языках
+const texts = {
+  ru: {
+    welcome: "Добро пожаловать в MyFirm Global! 🚀 Мы помогаем регистрировать компании, открывать счета и получать лицензии по всему миру.",
+    start_btn: "🚀 Да, начнём",
+    privacy: "Прежде чем продолжить, нам нужно ваше согласие на обработку персональных данных. 📄 myfirm.global/privacy",
+    agree: "✅ Согласен",
+    disagree: "❌ Не согласен",
+    choose_service: "Что вас интересует?",
+    services: [
+      ["🏢 Регистрация", "reg"],
+      ["🏦 Банковский счёт", "bank"],
+      ["📋 Лицензия", "license"],
+      ["📝 Договоры", "contract"],
+      ["🔄 Несколько услуг", "multi"],
+      ["❓ Другое", "other"]
+    ],
+    choose_country: "Какая страна / юрисдикция интересует?",
+    countries: [
+      ["🇦🇪 ОАЭ", "UAE"],
+      ["🇬🇧 UK", "UK"],
+      ["🇺🇸 США", "USA"],
+      ["🇸🇬 Сингапур", "SG"],
+      ["🇭🇰 Гонконг", "HK"],
+      ["🌍 Другая", "other_country"]
+    ],
+    details: "Расскажите кратко о вашем кейсе. Можно пропустить.",
+    skip: "⏩ Пропустить",
+    write: "✍️ Напишу сейчас",
+    contact: "Как удобнее общаться со специалистом?",
+    contacts: [
+      ["📱 WhatsApp", "whatsapp"],
+      ["✈️ Telegram", "telegram"],
+      ["📧 Email", "email"]
+    ],
+    final: "✅ Всё зафиксировал. ⚡ Подключаю персонального специалиста MyFirm Global. Ожидайте — он свяжется с вами в течение нескольких минут 🚀"
+  },
+  en: {
+    welcome: "Welcome to MyFirm Global! 🚀 We help register companies, open accounts and obtain licenses worldwide.",
+    start_btn: "🚀 Yes, let's start",
+    privacy: "Before we continue, we need your consent to process personal data. 📄 myfirm.global/privacy",
+    agree: "✅ I agree",
+    disagree: "❌ I disagree",
+    choose_service: "What are you interested in?",
+    services: [
+      ["🏢 Company Registration", "reg"],
+      ["🏦 Bank Account", "bank"],
+      ["📋 License", "license"],
+      ["📝 Contracts", "contract"],
+      ["🔄 Multiple Services", "multi"],
+      ["❓ Other", "other"]
+    ],
+    choose_country: "Which country / jurisdiction are you interested in?",
+    countries: [
+      ["🇦🇪 UAE", "UAE"],
+      ["🇬🇧 UK", "UK"],
+      ["🇺🇸 USA", "USA"],
+      ["🇸🇬 Singapore", "SG"],
+      ["🇭🇰 Hong Kong", "HK"],
+      ["🌍 Other", "other_country"]
+    ],
+    details: "Tell us briefly about your case. You can skip this.",
+    skip: "⏩ Skip",
+    write: "✍️ I'll write now",
+    contact: "How would you prefer to communicate with a specialist?",
+    contacts: [
+      ["📱 WhatsApp", "whatsapp"],
+      ["✈️ Telegram", "telegram"],
+      ["📧 Email", "email"]
+    ],
+    final: "✅ All noted. ⚡ Connecting your personal MyFirm Global specialist. Please wait — they will contact you within a few minutes 🚀"
+  }
+};
+
+// Хранилище языка пользователя
+const userLang = {};
+
 const wizard = new WizardScene(
   'myfirm-wizard',
-  
+
+  // 0. Выбор языка
+  (ctx) => {
+    ctx.reply("🌍 Please choose your language / Выберите язык:", {
+      reply_markup: { inline_keyboard: [[
+        { text: "🇷🇺 Русский", callback_data: "lang_ru" },
+        { text: "🇬🇧 English", callback_data: "lang_en" }
+      ]] }
+    });
+    return ctx.wizard.next();
+  },
+
   // 1. Приветствие
   (ctx) => {
-    ctx.reply("Добро пожаловать в MyFirm Global! 🚀 Мы помогаем регистрировать компании, открывать счета и получать лицензии по всему миру.");
-    ctx.reply("Нажмите кнопку, чтобы начать:", {
-      reply_markup: { inline_keyboard: [[{ text: "🚀 Да, начнём", callback_data: "start" }]] }
+    const lang = ctx.callbackQuery?.data === 'lang_en' ? 'en' : 'ru';
+    userLang[ctx.from.id] = lang;
+    const t = texts[lang];
+    ctx.reply(t.welcome);
+    ctx.reply("➡️", {
+      reply_markup: { inline_keyboard: [[{ text: t.start_btn, callback_data: "start" }]] }
     });
     return ctx.wizard.next();
   },
 
-  // 2. Согласие на обработку данных
+  // 2. Согласие
   (ctx) => {
-    ctx.reply("Прежде чем продолжить, нам нужно ваше согласие на обработку персональных данных. 📄 myfirm.global/privacy", {
-      reply_markup: { inline_keyboard: [
-        [{ text: "✅ Согласен", callback_data: "agree" }, { text: "❌ Не согласен", callback_data: "disagree" }]
-      ]}
+    const t = texts[userLang[ctx.from.id] || 'ru'];
+    ctx.reply(t.privacy, {
+      reply_markup: { inline_keyboard: [[
+        { text: t.agree, callback_data: "agree" },
+        { text: t.disagree, callback_data: "disagree" }
+      ]] }
     });
     return ctx.wizard.next();
   },
 
-  // 3. Выбор типа кейса
+  // 3. Услуга
   (ctx) => {
-    ctx.reply("Что вас интересует?", {
-      reply_markup: { inline_keyboard: [
-        [{ text: "🏢 Регистрация", callback_data: "reg" }],
-        [{ text: "🏦 Банковский счёт", callback_data: "bank" }],
-        [{ text: "📋 Лицензия", callback_data: "license" }],
-        [{ text: "📝 Договоры", callback_data: "contract" }],
-        [{ text: "🔄 Несколько услуг", callback_data: "multi" }],
-        [{ text: "❓ Другое", callback_data: "other" }]
-      ]}
+    const t = texts[userLang[ctx.from.id] || 'ru'];
+    ctx.reply(t.choose_service, {
+      reply_markup: { inline_keyboard: t.services.map(([text, data]) => [{ text, callback_data: data }]) }
     });
     return ctx.wizard.next();
   },
 
   // 4. Юрисдикция
   (ctx) => {
-    ctx.reply("Какая страна / юрисдикция интересует?", {
-      reply_markup: { inline_keyboard: [
-        [{ text: "🇦🇪 ОАЭ", callback_data: "UAE" }],
-        [{ text: "🇬🇧 UK", callback_data: "UK" }],
-        [{ text: "🇺🇸 США", callback_data: "USA" }],
-        [{ text: "🇸🇬 Сингапур", callback_data: "SG" }],
-        [{ text: "🇭🇰 Гонконг", callback_data: "HK" }],
-        [{ text: "🌍 Другая", callback_data: "other_country" }]
-      ]}
+    const t = texts[userLang[ctx.from.id] || 'ru'];
+    ctx.reply(t.choose_country, {
+      reply_markup: { inline_keyboard: t.countries.map(([text, data]) => [{ text, callback_data: data }]) }
     });
     return ctx.wizard.next();
   },
 
-  // 5. Дополнительные детали
+  // 5. Детали
   (ctx) => {
-    ctx.reply("Чтобы специалист был подготовлен — расскажите кратко о вашем кейсе. Можно пропустить.", {
+    const t = texts[userLang[ctx.from.id] || 'ru'];
+    ctx.reply(t.details, {
       reply_markup: { inline_keyboard: [[
-        { text: "⏩ Пропустить", callback_data: "skip" }, 
-        { text: "✍️ Напишу сейчас", callback_data: "write" }
+        { text: t.skip, callback_data: "skip" },
+        { text: t.write, callback_data: "write" }
       ]] }
     });
     return ctx.wizard.next();
@@ -70,63 +150,25 @@ const wizard = new WizardScene(
 
   // 6. Контакт
   (ctx) => {
-    ctx.reply("Как удобнее общаться со специалистом?", {
-      reply_markup: { inline_keyboard: [
-        [{ text: "📱 WhatsApp", callback_data: "whatsapp" }],
-        [{ text: "✈️ Telegram", callback_data: "telegram" }],
-        [{ text: "📧 Email", callback_data: "email" }]
-      ]}
+    const t = texts[userLang[ctx.from.id] || 'ru'];
+    ctx.reply(t.contact, {
+      reply_markup: { inline_keyboard: t.contacts.map(([text, data]) => [{ text, callback_data: data }]) }
     });
     return ctx.wizard.next();
   },
 
-  // 7. Финальное сообщение
+  // 7. Финал
   (ctx) => {
-    ctx.reply("✅ Всё зафиксировал. ⚡ Подключаю персонального специалиста MyFirm Global. Ожидайте — он свяжется с вами в течение нескольких минут 🚀");
+    const t = texts[userLang[ctx.from.id] || 'ru'];
+    ctx.reply(t.final);
     return ctx.scene.leave();
   }
 );
 
-// Stage и запуск
 const stage = new Stage([wizard]);
 bot.use(session());
 bot.use(stage.middleware());
 bot.start((ctx) => ctx.scene.enter('myfirm-wizard'));
 
-// Запуск бота
 bot.launch();
 console.log("MyFirm Global Bot запущен!");
-
-
-nano bot.js
-// Подключаем Telegraf
-const { Telegraf } = require('telegraf');
-
-// Вставь сюда токен от BotFather
-const bot = new Telegraf('process.env.BOT_TOKEN');
-
-// Простейший старт
-bot.start((ctx) => {
-  ctx.reply("Добро пожаловать в MyFirm Global! 🚀 Мы помогаем с регистрацией компаний, счетами и лицензиями. Нажмите /start, чтобы продолжить.");
-});
-
-// Запуск бота
-bot.launch();
-console.log("MyFirm Global Bot запущен!");process.env.BOT_TOKEN
-
-// Подключаем Telegraf
-const { Telegraf } = require('telegraf');
-
-// Вставь сюда токен от BotFather
-const bot = new Telegraf('process.env.BOT_TOKEN');
-
-// Простейший старт
-bot.start((ctx) => {
-  ctx.reply("Добро пожаловать в MyFirm Global! 🚀 Мы помогаем с регистрацией компаний, счетами и лицензиями. Нажмите /start, чтобы продолжить.");
-});
-
-// Запуск бота
-bot.launch();
-console.log("MyFirm Global Bot запущен!");
-
-
