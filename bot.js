@@ -93,27 +93,24 @@ const texts = {
 
 async function saveToSheets(data) {
   try {
-    const res = await fetch(SHEET_URL, {
-      method: 'POST',
-      redirect: 'follow',
+    const res = await axios.post(SHEET_URL, JSON.stringify(data), {
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(data)
+      maxRedirects: 5
     });
     console.log('Sheets response:', res.status);
   } catch (e) {
     console.error('Sheets error:', e.message);
   }
-}
-async function getAllUsers() {
+
+  async function getAllUsers() {
   try {
-    const res = await fetch(SHEET_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type: 'get_ids' })
+    const res = await axios.post(SHEET_URL, JSON.stringify({ type: 'get_ids' }), {
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      maxRedirects: 5
     });
-    return await res.json();
+    return res.data;
   } catch (e) {
-    console.error('Get users error:', e);
+    console.error('Get users error:', e.message);
     return [];
   }
 }
