@@ -13,10 +13,10 @@ const texts = {
   ru: {
     welcome: "Добро пожаловать в MyFirm Global 👋\n\nМы помогаем предпринимателям открывать компании, счета и лицензии в 50+ странах — быстро, без лишней бюрократии и с гарантией результата.\n\n🔹 Более 500 успешных кейсов\n🔹 Средний срок регистрации — 5 дней\n🔹 Персональный специалист на каждом этапе",
     start_btn: "🚀 Получить консультацию",
-    privacy: "Прежде чем начать — нам важно ваше согласие на обработку персональных данных.\n\n📄 Политика конфиденциальности: https://myfirmglobal.com/privacypolicy\n\n Мы никогда не передаём данные третьим лицам.",
+    privacy: "Прежде чем начать — нам важно ваше согласие на обработку персональных данных.\n\n📄 Политика конфиденциальности: myfirm.global/privacy\n\nМы никогда не передаём данные третьим лицам.",
     agree: "✅ Согласен, продолжить",
     disagree: "❌ Не согласен",
-    choose_service: "Отлично! Что сейчас актуально для вашего бизнеса? 👇\n\n Выберите основное направление — специалист подготовится заранее к звонку",
+    choose_service: "Отлично! Что сейчас актуально для вашего бизнеса? 👇\n\n_Выберите основное направление — специалист подготовится заранее_",
     services: [
       ["🏢 Регистрация компании", "reg"],
       ["🏦 Открытие банковского счёта", "bank"],
@@ -25,7 +25,7 @@ const texts = {
       ["🔄 Комплексное сопровождение", "multi"],
       ["❓ Другой вопрос", "other"]
     ],
-    choose_country: "В какой юрисдикции планируете работать?\n\n Если рассматриваете несколько — выберите приоритетную 👇",
+    choose_country: "В какой юрисдикции планируете работать?\n\n_Если рассматриваете несколько — выберите приоритетную_ 👇",
     countries: [
       ["🇦🇪 ОАЭ — от 3 дней", "UAE"],
       ["🇬🇧 Великобритания — от 1 дня", "UK"],
@@ -34,7 +34,7 @@ const texts = {
       ["🇭🇰 Гонконг — от 5 дней", "HK"],
       ["🌍 Другая страна", "other_country"]
     ],
-    details: "Чтобы специалист сразу дал точный ответ — расскажите в двух словах о вашей ситуации.\n\n Например: «Открываю IT-компанию, нужен счёт для приёма международных платежей, структура »",
+    details: "Чтобы специалист сразу дал точный ответ — расскажите в двух словах о вашей ситуации.\n\n_Например: «Открываю IT-компанию, нужен счёт для приёма международных платежей»_",
     skip: "⏩ Пропустить",
     write: "✍️ Напишу",
     contact: "Почти готово! 🎯\n\nКак вам удобнее получить консультацию специалиста?",
@@ -43,16 +43,19 @@ const texts = {
       ["✈️ Telegram", "telegram"],
       ["📧 Email", "email"]
     ],
-    final: "✅ Заявка принята!\n\nВаш персональный специалист MyFirm Global уже получил все детали и свяжется с вами в течение 10 минут.\n\n⚡ Мы ценим ваше время — никаких долгих ожиданий.",
-    manager_reply: "💬 Сообщение от вашего специалиста MyFirm Global:"
+    final: "✅ Заявка принята!\n\nВаш персональный специалист MyFirm Global уже получил все детали и свяжется с вами в течение 15 минут.\n\n⚡ Мы ценим ваше время — никаких долгих ожиданий.",
+    manager_reply: "💬 Сообщение от вашего специалиста MyFirm Global:",
+    reminder1: "👋 Добрый день!\n\nНапоминаем — вы оставляли заявку в MyFirm Global. Если остались вопросы или хотите уточнить детали — наш специалист готов помочь прямо сейчас. 🚀",
+    reminder2: "🌍 MyFirm Global напоминает:\n\nРегистрация компании за рубежом — это не сложно, если рядом есть эксперт. Мы готовы ответить на любые вопросы. Напишите нам! 💼",
+    reminder3: "⚡ Последнее напоминание от MyFirm Global:\n\nЕсли вы ещё думаете над открытием компании или счёта — самое время начать. Специалист свяжется с вами в течение 15 минут. 🎯"
   },
   en: {
     welcome: "Welcome to MyFirm Global 👋\n\nWe help entrepreneurs register companies, open accounts and obtain licenses in 50+ countries — fast, hassle-free and with guaranteed results.\n\n🔹 500+ successful cases\n🔹 Average registration time — 5 days\n🔹 Personal expert at every step",
     start_btn: "🚀 Get a free consultation",
-    privacy: "Before we start — we need your consent to process personal data.\n\n📄 Privacy policy: https://myfirmglobal.com/privacypolicy\n\n We never share your data with third parties.",
+    privacy: "Before we start — we need your consent to process personal data.\n\n📄 Privacy policy: myfirm.global/privacy\n\nWe never share your data with third parties.",
     agree: "✅ I agree, let's continue",
     disagree: "❌ I disagree",
-    choose_service: "Great! What's most relevant for your business right now? 👇\n\n Choose the main area — your specialist will prepare in advance",
+    choose_service: "Great! What's most relevant for your business right now? 👇\n\n_Choose the main area — your specialist will prepare in advance_",
     services: [
       ["🏢 Company Registration", "reg"],
       ["🏦 Bank Account Opening", "bank"],
@@ -61,7 +64,7 @@ const texts = {
       ["🔄 Full Business Support", "multi"],
       ["❓ Other Question", "other"]
     ],
-    choose_country: "Which jurisdiction are you planning to operate in?\n\n If you're considering several — pick the priority one👇",
+    choose_country: "Which jurisdiction are you planning to operate in?\n\n_If you're considering several — pick the priority one_ 👇",
     countries: [
       ["🇦🇪 UAE — from 3 days", "UAE"],
       ["🇬🇧 UK — from 1 day", "UK"],
@@ -70,16 +73,20 @@ const texts = {
       ["🇭🇰 Hong Kong — from 5 days", "HK"],
       ["🌍 Other country", "other_country"]
     ],
-    details: "To give you the most accurate answer right away — briefly describe your situation.\n\n For example: 'Setting up an IT company, need an account for international payments'",
+    details: "To give you the most accurate answer right away — briefly describe your situation.\n\n_For example: 'Setting up an IT company, need an account for international payments'_",
     skip: "⏩ Skip",
     write: "✍️ I'll describe",
     contact: "Almost there! 🎯\n\nHow would you prefer to receive your consultation?",
-    contacts: [,
+    contacts: [
+      ["📱 WhatsApp", "whatsapp"],
       ["✈️ Telegram", "telegram"],
       ["📧 Email", "email"]
     ],
     final: "✅ Request received!\n\nYour personal MyFirm Global specialist has all the details and will contact you within 15 minutes.\n\n⚡ We value your time — no long waits.",
-    manager_reply: "💬 Message from your MyFirm Global specialist:"
+    manager_reply: "💬 Message from your MyFirm Global specialist:",
+    reminder1: "👋 Hello!\n\nJust a reminder — you submitted a request to MyFirm Global. If you have any questions or need more details — our specialist is ready to help right now. 🚀",
+    reminder2: "🌍 MyFirm Global reminder:\n\nRegistering a company abroad is easy when you have the right expert. We're ready to answer any questions. Just reach out! 💼",
+    reminder3: "⚡ Final reminder from MyFirm Global:\n\nIf you're still considering opening a company or account — now is the perfect time. A specialist will contact you within 15 minutes. 🎯"
   }
 };
 
@@ -95,10 +102,61 @@ async function saveToSheets(data) {
   }
 }
 
+async function getAllUsers() {
+  try {
+    const res = await fetch(SHEET_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'get_ids' })
+    });
+    return await res.json();
+  } catch (e) {
+    console.error('Get users error:', e);
+    return [];
+  }
+}
+
+// Напоминания после заявки
+function scheduleReminders(clientId, lang) {
+  const t = texts[lang || 'ru'];
+  
+  // Через 1 день
+  setTimeout(async () => {
+    try {
+      await bot.telegram.sendMessage(clientId, t.reminder1, {
+        reply_markup: { inline_keyboard: [[
+          { text: "💬 Написать специалисту", callback_data: `reply_to_manager` }
+        ]]}
+      });
+    } catch (e) {}
+  }, 24 * 60 * 60 * 1000);
+
+  // Через 3 дня
+  setTimeout(async () => {
+    try {
+      await bot.telegram.sendMessage(clientId, t.reminder2, {
+        reply_markup: { inline_keyboard: [[
+          { text: "💬 Написать специалисту", callback_data: `reply_to_manager` }
+        ]]}
+      });
+    } catch (e) {}
+  }, 3 * 24 * 60 * 60 * 1000);
+
+  // Через 7 дней
+  setTimeout(async () => {
+    try {
+      await bot.telegram.sendMessage(clientId, t.reminder3, {
+        reply_markup: { inline_keyboard: [[
+          { text: "💬 Написать специалисту", callback_data: `reply_to_manager` }
+        ]]}
+      });
+    } catch (e) {}
+  }, 7 * 24 * 60 * 60 * 1000);
+}
+
 const wizard = new WizardScene(
   'myfirm-wizard',
 
-  // 0. Выбор языка
   (ctx) => {
     ctx.reply("🌍 Please choose your language / Выберите язык:", {
       reply_markup: { inline_keyboard: [[
@@ -109,7 +167,6 @@ const wizard = new WizardScene(
     return ctx.wizard.next();
   },
 
-  // 1. Приветствие
   (ctx) => {
     const lang = ctx.callbackQuery?.data === 'lang_en' ? 'en' : 'ru';
     userLang[ctx.from.id] = lang;
@@ -122,7 +179,6 @@ const wizard = new WizardScene(
     return ctx.wizard.next();
   },
 
-  // 2. Согласие
   (ctx) => {
     const t = texts[userLang[ctx.from.id] || 'ru'];
     ctx.reply(t.privacy, {
@@ -134,7 +190,6 @@ const wizard = new WizardScene(
     return ctx.wizard.next();
   },
 
-  // 3. Услуга
   (ctx) => {
     const t = texts[userLang[ctx.from.id] || 'ru'];
     if (ctx.callbackQuery?.data) userChoices[ctx.from.id].consent = ctx.callbackQuery.data;
@@ -144,7 +199,6 @@ const wizard = new WizardScene(
     return ctx.wizard.next();
   },
 
-  // 4. Юрисдикция
   (ctx) => {
     const t = texts[userLang[ctx.from.id] || 'ru'];
     if (ctx.callbackQuery?.data) userChoices[ctx.from.id].service = ctx.callbackQuery.data;
@@ -154,7 +208,6 @@ const wizard = new WizardScene(
     return ctx.wizard.next();
   },
 
-  // 5. Детали
   (ctx) => {
     const t = texts[userLang[ctx.from.id] || 'ru'];
     if (ctx.callbackQuery?.data) userChoices[ctx.from.id].country = ctx.callbackQuery.data;
@@ -167,7 +220,6 @@ const wizard = new WizardScene(
     return ctx.wizard.next();
   },
 
-  // 6. Контакт
   (ctx) => {
     const t = texts[userLang[ctx.from.id] || 'ru'];
     if (ctx.callbackQuery?.data === 'skip') {
@@ -181,7 +233,6 @@ const wizard = new WizardScene(
     return ctx.wizard.next();
   },
 
-  // 7. Финал
   async (ctx) => {
     const lang = userLang[ctx.from.id] || 'ru';
     const t = texts[lang];
@@ -196,8 +247,8 @@ const wizard = new WizardScene(
 
     await ctx.reply(t.final);
 
-    // Сохраняем в Google Sheets
     await saveToSheets({
+      type: 'lead',
       date: new Date().toLocaleString('ru-RU'),
       name: clientName,
       username: username,
@@ -209,7 +260,6 @@ const wizard = new WizardScene(
       details: c.details || '—'
     });
 
-    // Уведомление менеджеру
     await bot.telegram.sendMessage(MANAGER_ID,
       `🆕 Новая заявка!\n\n` +
       `👤 Клиент: ${clientName} (${username})\n` +
@@ -225,6 +275,9 @@ const wizard = new WizardScene(
       ]] }}
     );
 
+    // Запускаем напоминания
+    scheduleReminders(clientId, lang);
+
     return ctx.scene.leave();
   }
 );
@@ -234,12 +287,52 @@ bot.use(session());
 bot.use(stage.middleware());
 bot.start((ctx) => ctx.scene.enter('myfirm-wizard'));
 
+// Клиент нажимает "Написать специалисту" из напоминания
+bot.action('reply_to_manager', async (ctx) => {
+  await ctx.answerCbQuery();
+  sessions[ctx.from.id] = MANAGER_ID;
+  await ctx.reply("✍️ Напишите ваш вопрос — специалист ответит в течение 15 минут:");
+});
+
 // Менеджер нажимает "Ответить клиенту"
 bot.action(/reply_to_(.+)/, async (ctx) => {
   const clientId = ctx.match[1];
   sessions[`waiting_reply_${MANAGER_ID}`] = clientId;
   await ctx.answerCbQuery();
   await ctx.reply(`✏️ Напишите сообщение для клиента:`);
+});
+
+// Команда рассылки — только для менеджера
+// Использование: /broadcast Текст сообщения
+bot.command('broadcast', async (ctx) => {
+  if (ctx.from.id !== MANAGER_ID) return;
+  
+  const text = ctx.message.text.replace('/broadcast ', '').trim();
+  if (!text) {
+    await ctx.reply('❌ Укажите текст: /broadcast Ваше сообщение');
+    return;
+  }
+
+  await ctx.reply('📤 Начинаю рассылку...');
+  const users = await getAllUsers();
+  let sent = 0;
+  let failed = 0;
+
+  for (const user of users) {
+    try {
+      await bot.telegram.sendMessage(user.id, text, {
+        reply_markup: { inline_keyboard: [[
+          { text: "💬 Написать специалисту", callback_data: "reply_to_manager" }
+        ]]}
+      });
+      sent++;
+      await new Promise(r => setTimeout(r, 50));
+    } catch (e) {
+      failed++;
+    }
+  }
+
+  await ctx.reply(`✅ Рассылка завершена!\n📨 Отправлено: ${sent}\n❌ Ошибок: ${failed}`);
 });
 
 // Обработка сообщений
